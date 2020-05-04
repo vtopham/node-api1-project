@@ -39,5 +39,12 @@ server.post('/api/users', (req, res) => {
 
 })
 
-
+server.get('/api/users',(req, res) => {
+    if(!users) {
+        //if users doesn't exist, give them an error
+        res.status(500).json({ errorMessage: "The users information could not be retrieved." })
+    }
+    //if successful then send it on over
+    res.status(200).json(users)
+})
 server.listen(8000, _ => console.log("listening on 8000"))
