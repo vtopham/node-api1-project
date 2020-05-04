@@ -19,7 +19,7 @@ server.get('/', (req, res) => {
 
 //When a user wants to add a user
 server.post('/api/users', (req, res) => {
-    console.log(req.body)
+    
     //if the info is invalid or there is no body, respond with an error message
     if (!req.body || !req.body.name || !req.body.id) {
         res.status(400).json({errorMessage: "Please provide name and bio for the user"})
@@ -30,9 +30,12 @@ server.post('/api/users', (req, res) => {
         name: req.body.name,
         bio: req.body.bio
     })
+    .then(res.status(201).json(users))
+    //if there is an error saving, send an error message. Tyler, is this right?
+    .catch(res.status(500).json({errorMessage: "There was an error while saving the user to the database"}))
 
-        res.status(201).json(users)
-    }
+        
+    } //end else
 
 })
 
