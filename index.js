@@ -73,7 +73,7 @@ server.get('/api/users/:id', (req, res) => {
 server.delete('/api/users/:id', (req, res) => {
 
     //TODO: add the 500 error if the user couldn't be removed
-    newArray = users.filter(user => {
+    const newArray = users.filter(user => {
         return user.id.toString() != req.params.id.toString()
     })
 
@@ -93,7 +93,34 @@ server.put('/api/users/:id', (req, res) => {
     if (!req.body || !req.body.name || !req.body.bio) {
         res.status(400).json({errorMessage: "Please provide the new information for the user"})
     } else { 
-   
+        let exists = false;
+        let newUser = {}
+        //if the user matches, return the new data. otherwise, return the original user
+        const newArray = users.map(user => {
+            if (user.id == req.params.id) {
+                exists = true;
+                newUser = {
+                    id: req.params.id,
+                    name: req.body.name,
+                    bio: req.body.bio
+                }
+                console.log(newUser)
+                return newUser
+            } else {
+                return user
+            }
+        })
+
+        if(exists) {
+            //set users to be the new array returned by the map function
+            users = newArray;
+            res.status(200).json({newUser})
+            .catch( _ => {
+                res.status(500).json({errorMessage: "The user information could not be modified."})
+            })
+        } else {
+            res.status(404).json({ message: "The user with the specified ID does not exist." })
+        }
     }
 
 })
