@@ -35,7 +35,7 @@ server.post('/api/users', (req, res) => {
         })
         .then(res.status(201).json(users))
     //if there is an error saving, send an error message. Tyler, is this right?
-    .catch(res.status(500).json({errorMessage: "There was an error while saving the user to the database"}))
+    .catch( _ => {res.status(500).json({errorMessage: "There was an error while saving the user to the database"})})
 
         
     } //end else
@@ -59,12 +59,43 @@ server.get('/api/users/:id', (req, res) => {
         //if it matches, send the response
         if (user.id == req.params.id) {
             res.status(200).json({user})
-            .catch(res.status(500).json({ errorMessage: "The user information could not be retrieved." }))
+            .catch( _ => {
+                res.status(500).json({ errorMessage: "The user information could not be retrieved." })
+            })
         }
     })
 
     //if no matches, return no id found
     res.status(404).json({ message: "The user with the specified ID does not exist." })
+})
+
+//when a user wants to delete a user by id
+server.delete('/api/users/:id', (req, res) => {
+
+    //TODO: add the 500 error if the user couldn't be removed
+    newArray = users.filter(user => {
+        return user.id.toString() != req.params.id.toString()
+    })
+
+    if (newArray.length === users.length) {
+        //if nothing was deleted
+        res.status(404).json({ message: "The user with the specified ID does not exist." })
+    } 
+    users = newArray;
+    res.status(200).json({message: "User successfully deleted"})
+    .catch(_ => {
+        res.status(500).json({ errorMessage: "The user could not be removed" })
+    })
+})
+
+//when a user wants to edit a user by id
+server.put('/api/users/:id', (req, res) => {
+    if (!req.body || !req.body.name || !req.body.bio) {
+        res.status(400).json({errorMessage: "Please provide the new information for the user"})
+    } else { 
+   
+    }
+
 })
 
 
