@@ -12,18 +12,22 @@ function App() {
 
   const [users, setUsers] = useState([])
 
-  useEffect( _ => {
+  const fetchUsers = _ => {
     axios.get(`http://localhost:8000/api/users`)
     .then(res => {
       setUsers(res.data)
     })
+  }
+
+  useEffect( _ => {
+    fetchUsers()
   },[])
 
   return (
     <div className="App">
       
       <AddUser />
-      <ViewUsers users = {users}/>
+      <ViewUsers users = {users} setUsers = {setUsers}/>
       
     </div>
   );
