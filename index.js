@@ -39,6 +39,7 @@ server.post('/api/users', (req, res) => {
 
 })
 
+//when a user wants a list of all users
 server.get('/api/users',(req, res) => {
     if(!users) {
         //if users doesn't exist, give them an error
@@ -47,4 +48,21 @@ server.get('/api/users',(req, res) => {
     //if successful then send it on over
     res.status(200).json(users)
 })
+
+//when a user wants a specific user by id
+server.get('/api/users/:id', (req, res) => {
+    
+    users.forEach(user => {
+        //if it matches, send the response
+        if (user.id == req.params.id) {
+            res.status(200).json({user})
+            .catch(res.status(500).json({ errorMessage: "The user information could not be retrieved." }))
+        }
+    })
+
+    //if no matches, return no id found
+    res.status(404).json({ message: "The user with the specified ID does not exist." })
+})
+
+
 server.listen(8000, _ => console.log("listening on 8000"))
