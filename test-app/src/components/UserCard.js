@@ -1,9 +1,11 @@
 import React from 'react'
 
-const UserCard = props => {
+const UserCard = ({ user }) => {
 
     return(
     <>
+    <h3>{user.name}</h3>
+    <p>{user.bio}</p>
     </>
         )
 }   
