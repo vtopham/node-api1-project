@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       
-      <AddUser />
+      <AddUser users = {users} setUsers = {setUsers}/>
       <ViewUsers users = {users} setUsers = {setUsers}/>
       
     </div>
