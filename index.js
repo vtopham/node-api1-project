@@ -36,7 +36,7 @@ server.post('/api/users', (req, res) => {
         })
         .then(res.status(201).json(users))
     //if there is an error saving, send an error message. Tyler, is this right?
-    .catch( _ => {res.status(500).json({errorMessage: "There was an error while saving the user to the database"})})
+    // .catch( _ => {res.status(500).json({errorMessage: "There was an error while saving the user to the database"})})
 
         
     } //end else
@@ -60,10 +60,13 @@ server.get('/api/users/:id', (req, res) => {
         //if it matches, send the response
         if (user.id == req.params.id) {
             res.status(200).json({user})
-            .catch( _ => {
-                res.status(500).json({ errorMessage: "The user information could not be retrieved." })
-            })
+        
+            // .catch( _ => {
+            //     res.status(500).json({ errorMessage: "The user information could not be retrieved." })
+            // })
+            console.log(res)
         }
+
     })
 
     //if no matches, return no id found
@@ -84,9 +87,9 @@ server.delete('/api/users/:id', (req, res) => {
     } 
     users = newArray;
     res.status(200).json({message: "User successfully deleted"})
-    .catch(_ => {
-        res.status(500).json({ errorMessage: "The user could not be removed" })
-    })
+    // .catch(_ => {
+    //     res.status(500).json({ errorMessage: "The user could not be removed" })
+    // })
 })
 
 //when a user wants to edit a user by id
@@ -116,9 +119,9 @@ server.put('/api/users/:id', (req, res) => {
             //set users to be the new array returned by the map function
             users = newArray;
             res.status(200).json({newUser})
-            .catch( _ => {
-                res.status(500).json({errorMessage: "The user information could not be modified."})
-            })
+            // .catch( _ => {
+            //     res.status(500).json({errorMessage: "The user information could not be modified."})
+            // })
         } else {
             res.status(404).json({ message: "The user with the specified ID does not exist." })
         }
