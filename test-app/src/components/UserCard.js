@@ -48,7 +48,7 @@ const UserCard = ({ user, setUsers, users }) => {
                         return item
                     }
                 })
-                console.log(newArray)
+                
                 setUsers(newArray)
             })
             .catch(err => console.log(err))
